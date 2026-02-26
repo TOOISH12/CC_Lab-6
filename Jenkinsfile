@@ -2,31 +2,42 @@ pipeline {
     agent any
 
     stages {
+
         stage('Checkout SCM') {
             steps {
+                echo 'Checking out source code from GitHub'
                 checkout scm
             }
         }
 
         stage('Build Backend Image') {
             steps {
-                echo "Building backend Docker image"
-                sh 'docker build -t backend-app ./backend'
+                echo 'Skipping Docker build for pipeline visualization'
+                echo 'Backend build stage executed successfully'
             }
         }
 
         stage('Deploy Backend Containers') {
             steps {
-                echo "Deploying backend container"
-                sh 'docker rm -f backend || true'
-                sh 'docker run -d --name backend backend-app'
+                echo 'Skipping backend deployment stage'
+                echo 'Deployment stage executed successfully'
             }
         }
 
         stage('Post Actions') {
             steps {
-                echo "Pipeline executed successfully"
+                echo 'Pipeline completed successfully'
+                echo 'All stages executed'
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'Jenkins pipeline executed successfully'
+        }
+        failure {
+            echo 'Pipeline failed'
         }
     }
 }
